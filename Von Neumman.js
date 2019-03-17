@@ -10,6 +10,9 @@ let decodificador = [/* Instrucciones */ ['0000','0001','0010','0011','0100','01
                      /* Comentarios */ ['Suma','Resta','Producto','Cociente','Potencia','Operador AND',
                                         'Operador OR','Operador XOR','Guardar','Finalizar']];
 
+//Tiempo que transcurre entre cada pulso
+let tiempo = 1000;
+
 //Clase que representa el decodificador
 class Decodificador{
     
@@ -262,9 +265,8 @@ class VonNeumman{
         //Se pasa el pulso a binario
         this.pulsoBinario = toBin(this.pulsos, true);
         
-        //Esta linea elimina el resaltado en el decodificador y en la memoria
-        Array.from(document.getElementById("decoT").getElementsByClassName("resaltar")).forEach(tr => { tr.classList.remove("resaltar") });
-        Array.from(document.getElementById("contenido").getElementsByClassName("resaltar")).forEach(tr => { tr.classList.remove("resaltar") });   
+        //Esta linea elimina el resaltado de todo lo que este resaltado
+        Array.from(document.body.getElementsByClassName("resaltar")).forEach(tr => { tr.classList.remove("resaltar") });  
         
         //Para mostrar de manera secuencial por pulso, en cada pulso se resetea o incrementa el contador de pasos.
         switch(this.pasos){
@@ -535,6 +537,7 @@ class Registro{
         let txt = document.createTextNode(binario);
         let ndiv = document.createElement('div');
         ndiv.append(txt);
+        ndiv.classList.add("resaltar");
         
         if(end){
             ndiv.style.borderBottom = "2px solid white";
@@ -554,7 +557,7 @@ class Registro{
 
 //Se instancia y ejecuta la funcionalidad de la clase VonNeumman el numero del segundo parametro representa el tiempo que dura cada pulso en ms
 var vn = new VonNeumman(memoria, decodificador);
-var interval = setInterval(vn.desplazarDirecto, 500);
+var interval = setInterval(vn.desplazarSecuencial, tiempo);
 
 
 //Funciones para conversion Binario-Decimal
