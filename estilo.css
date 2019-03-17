@@ -314,4 +314,7 @@ table{
 
 .resaltar{
     color: aqua;
+    font-weight: bolder;
+    font-size: 1vw;
+    transition: all 0.5s;
 }
