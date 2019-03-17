@@ -1,0 +1,317 @@
+* { padding: 0; margin: 0; }
+
+html, body {
+    min-height: 100% !important;
+    height: 100%;
+    background-color: black;
+}
+
+
+#container {
+    width: 100%;
+}
+
+#plantilla {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+}
+
+table{
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+/*Estilo div y tabla decodificador*/
+#decodificador{
+    height: 20%;
+    width: 36%;
+    min-width: 500px !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#decoT th{
+    width: 10%;
+    padding: 3.5%;
+    height: 0.5%;
+}
+
+#decoT{
+    background-image: url(Imagenes/Decodificador.png);
+    padding-bottom: 2%;
+    padding-right: 2%;
+    width: 58%;
+    font-size: 62%;
+}
+
+/*Estilo divs memoria*/
+#memoria{
+    background-image: url(Imagenes/Memoria2.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    min-width: 25% !important;
+    min-height: 300px !important;
+    height: 70%;
+    width: 25%;
+    position: absolute;
+    top: 50%;
+    left: 25%;
+}
+
+#headers{
+    width: 100%;
+    display: grid;
+    height: 8%;
+    margin-top: 10%;
+    position: relative;
+    grid-template-columns: auto auto auto;
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+#contenido{
+    position: relative;
+    width: 75%;
+    font-size: 0.95vw;
+    left: 9%;
+    top: 1%;
+    
+}
+
+#instruccionesM{
+    display: grid;
+    grid-template-columns: auto auto;
+    position: relative;
+    top: 0;
+}
+
+#datosM{
+    display: grid;
+    grid-template-columns: auto auto;
+    position: relative;
+    margin-top: 10%;
+}
+
+/*Estilo divs contador y registros*/
+#contador{
+    position: absolute;
+    top: 12%;
+    right: 60%;
+    height: 20%;
+    width: 5%;
+    text-align: center;
+}
+
+#registroI{
+    position: absolute;
+    top: 3%;
+    right: 50%;
+    height: 20%;
+    width: 5%;
+    text-align: center;
+}
+
+#registroD{
+    position: absolute;
+    top: 47%;
+    left: 5%;
+    height: 20%;
+    width: 5%;
+    text-align: center;
+}
+
+#registroDa{
+    position: absolute;
+    display: grid;
+    grid-template-columns: auto auto;
+    top: 70%;
+    right: 35%;
+    height: 20%;
+    width: 13%;
+    text-align: center;
+}
+
+
+#tContador, #tRegistroI, #tRegistroD, #tRegistroE, #tAcumulador, #tRegistroDa{
+    color: white;
+    font-family: sans-serif;
+    display: inline;
+    text-align: center;
+    font-size: 1vw;
+    padding: 0;
+    margin: 0;
+    height: 0;
+    font-weight: bold;
+}
+
+#tRegistroI, #tRegistroD, #tRegistroE, #tRegistroDa{
+    font-size: 0.8vw;
+    line-height: 0px;
+}
+
+#headC, #headRI, #headRD, #headA, #headRE, #headRDa{
+    display: block;
+    height: 15%;
+    background-image: url(Imagenes/Registro.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#headRDa{
+    width: 100%;
+}
+
+#aluimg{
+    display: block;
+    height: 100%;
+    background-image: url(Imagenes/ALU.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#clock, #datosRI, #datosRD, #datosRE, #datosA, #datosRDa{
+    font-size: 0.9vw;
+    display: inline;
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+#clock{
+    font-size: 0.75vw;
+}
+
+#d2{
+    height: 40px;
+    color: black;
+}
+
+#datosA, #datosRE{
+    font-size: 0.8vw;
+}
+
+
+#datosRD, #datosRDa{
+    font-size: 0.9vw;
+}
+
+#alu {
+    position: absolute;
+    top: 12%;
+    right: 10%;
+    height: 20%;
+    width: 19%;
+    text-align: center;
+}
+
+#rows{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+#acumulador, #registroE{
+    height: 100%;
+    width: 33%;
+    position: absolute;
+}
+
+#registroE{
+    right: 0;
+}
+
+
+
+#d1 {
+    height: 100%;
+    width: 100%;
+}
+
+#RDaM {
+    background-image: url(Imagenes/RDaM.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 51%;
+    width: 16%;
+    height: 10%;
+    left: 10%;
+}
+
+#RIaD {
+    background-image: url(Imagenes/RIaD.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 7%;
+    height: 10%;
+    width: 24%;
+    left: 21%;
+}
+
+#CaRD {
+    background-image: url(Imagenes/CaRD.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 15%;
+    width: 35%;
+    height: 36%;
+    left: 5%;
+}
+
+#RDtaM {
+    background-image: url(Imagenes/RDtaM.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 78%;
+    width: 9.5%;
+    height: 36%;
+    left: 47%;
+}
+
+#RDtaRI {
+    background-image: url(Imagenes/RDtaRI.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 7%;
+    width: 50%;
+    height: 63%;
+    left: 9.5%;
+}
+
+#AaRDt {
+    background-image: url(Imagenes/AaRDt.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 37%;
+    width: 15%;
+    height: 33%;
+    left: 56%;
+}
+
+#RDtaRE {
+    background-image: url(Imagenes/RDtaRE.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 35.5%;
+    width: 40%;
+    height: 38%;
+    left: 58%;
+}
+
+.resaltar{
+    color: aqua;
+}

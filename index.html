@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Von Neumman</title>
+        <link type="text/css" rel="stylesheet" href="estilo.css">
+    </head>
+    <body>
+        <div id="plantilla">
+            
+            <!-- Esta division contiene el registro de instrucciones, el decodificar, el contador y el ALU -->
+            <div id="container">
+                <!-- Division correspondiente a la tabla del decodificador, se llena mediante js -->
+                <div id="decodificador">
+                    <table id="decoT">
+                        <tr>
+                            <th style="width: 0px">INSTRUCCIÓN</th>
+                            <th style="width: 0px">OPERACIÓN</th>
+                            <th style="width: 0px">COMENTARIO</th>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Division correspondiente al contador -->
+                <div id="contador">
+                    <div id="tContador">Contador</div>
+                    <div id="headC"></div>
+                    <div id="clock">
+                        <!-- Aqui se agregan los binarios del contador -->
+                    </div>
+                </div>
+                
+                <!-- Division correspondiente al registro de instrucciones -->
+                <div id="registroI">
+                    <div id="tRegistroI">Registro de Instrucciones</div>
+                    <div id="headRI"></div>
+                    <div id="datosRI">
+                        <!-- Aqui se agregan los binarios del Registro de Instrucciones -->
+                    </div>
+                </div>
+                
+                <!-- Division correspondiente a la ALU -->
+                <div id="alu">
+                    <div id="aluimg"></div>
+                    <div id="rows">
+                        <!-- Division correspondiente al acumulador -->
+                        <div id="acumulador">
+                            <div id="tAcumulador"><div style="color: black">Hidden</div>Acumulador</div>
+                            <div id="headA"></div>
+                            <div id="datosA"> 
+                                <!-- Aqui se agregan los binarios del acumulador -->
+                            </div>
+                        </div>
+                        <!-- Division correspondiente al Registro de Entrada -->
+                        <div id="registroE">
+                            <div id="tRegistroE">Registro de Entrada</div>
+                            <div id="headRE"></div>
+                            <div id="datosRE">
+                                <!-- Aqui se agregan los binarios del Registro de Entrada -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                           
+            </div>
+            
+            <!-- Division correspondiente a la tabla de memoria, se llena mediante js -->
+            <div id="memoria">
+                <div id="headers">
+                    <div style="width: 100%;">DIRECCIÓN</div>
+                    <div style="width: 100%;">CONTENIDO</div>
+                </div>
+                <div id="contenido">
+                    <div id="instruccionesM">
+                        <span id="direccionesI">
+                        </span>
+                        <span id="contenidoI">
+                        </span>
+                    </div>
+                    <div id="datosM">
+                        <span id="direccionesD">
+                        </span>
+                        <span id="contenidoD">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Division correspondiente al registro de direcciones -->
+            <div id="registroD">
+                    <div id="tRegistroD">Registro de Direcciones</div>
+                    <div id="headRD"></div>
+                    <div id="datosRD">
+                        <!-- Aqui se agregan los binarios del Registro de Direcciones -->
+                    </div>
+                </div>
+            
+            <!-- Division correspondiente al registro de datos --> 
+            <div id="registroDa">
+                    <div id="d1">
+                        <div id="tRegistroDa">Registro de Datos</div>
+                        <div id="headRDa"></div>
+                    </div>
+                    <div id="datosRDa">
+                        <div id="d2">0</div>
+                        <!-- Aqui se agregan los binarios del Registro de Datos -->
+                    </div>
+                </div>
+            
+            <!-- Divisiones correspondientes a las flechas -->
+            <div id="RDaM"></div>
+            <div id="RIaD"></div>
+            <div id="CaRD"></div>
+            <div id="RDtaM"></div>
+            <div id="RDtaRI"></div>
+            <div id="AaRDt"></div>
+            <div id="RDtaRE"></div>
+        </div>
+    </body>
+    <script type="text/javascript" src="Von%20Neumman.js"></script>
+</html>
