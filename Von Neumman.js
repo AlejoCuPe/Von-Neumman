@@ -380,8 +380,8 @@ class VonNeumman{
                             binarioNegado += (binarioNegar[b]=='1'? 0: 1);
                         }
                         resultado = binarioNegado
-                        alert(binarioNegar+"--"+binarioNegado);
-                        alert("not "+resultado);
+                        //alert(binarioNegar+"--"+binarioNegado);
+                        //alert("not "+resultado);
                     break;
                         break;
                     case '⊕':
@@ -495,14 +495,14 @@ class VonNeumman{
                     resultado = toBin(num1 | num2, false, true);
                     break;
                 case '!':
-                    let binarioNegar = toBin(num2, true, false);
+                    let binarioNegar = toBin(num2, true, false); // Binario 1 byte
                     let binarioNegado = ''
                     for(var b=0; b < binarioNegar.length;b++){
                         binarioNegado += (binarioNegar[b]=='1'? 0: 1);
                     }
                     resultado = binarioNegado
-                    alert(binarioNegar+"--"+binarioNegado);
-                    alert("not "+resultado);
+                    //alert(binarioNegar+"--"+binarioNegado);
+                    //alert("not "+resultado);
                     break;
                 case '⊕':
                     resultado = toBin(num1 ^ num2, false, true);
@@ -580,11 +580,8 @@ class Registro{
     
     getRegistro = (index) => {
         return this.datos[index];
-    }
-    
+    }   
 }
-
-
 
 //Se instancia y ejecuta la funcionalidad de la clase VonNeumman el numero del segundo parametro representa el tiempo que dura cada pulso en ms
 var vn = new VonNeumman(memoria, decodificador);
