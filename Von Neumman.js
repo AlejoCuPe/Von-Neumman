@@ -1,14 +1,26 @@
-//Array para llenar la tabla de memoria
-let memoria = [/* Aqui van las instrucciones */ ['000010000001','010010000010','100010000111','001010000000','000010000011','001010000100',
-                                            '100010001000','001010000000','000010000111','000110001000','100010001001','001010000000',
-                                            '000010000101','010010000110','000010001001','100010001010','100100000000'],
-            /* Aqui van los datos*/ ['000000000000','000000001001','000000000011','000000001011','000000000111','000000001100','000000000010']];
+
+  
+// //Array para llenar la tabla de memoria
+// let memoria = [/* Aqui van las instrucciones */ ['000010000001','010010000010','100110000111','001010000000','000010000011','001010000100',
+//                                             '100110001000','001010000000','000010000111','000110001000','100110001001','001010000000',
+//                                             '000010000101','010010000110','000010001001','100110001010','101000000000'],
+//             /* Aqui van los datos*/ ['000000000000','000000001001','000000000011','000000001011','000000000111','000000001100','000000000010']];
+
+
+let memoria = [/* Aqui van las instrucciones */ ['000010000001','100110000011','011110000011','010110000010','100010000001','100110000100','101000000000'],
+            /* Aqui van los datos*/             ['000000000000','000001101100','000011011110']];
+
+
 
 //Array para llenar el decodificador
-let decodificador = [/* Instrucciones */ ['0000','0001','0010','0011','0100','0101','0110','0111','1000','1001'],
-                     /* Operaciones */ ['+','-','*','/','^','&','|','⊕','M','F'],
-                     /* Comentarios */ ['Suma','Resta','Producto','Cociente','Potencia','Operador AND',
-                                        'Operador OR','Operador XOR','Mover a Memoria', 'Finalizar']];
+let decodificador = [/* Instrucciones */ ['0000','0001','0010','0011','0100','0101','0110','0111','1000','1001','1010'],
+                     /* Operaciones */   ['+','-','*','/','^','&','|','!','⊕','M','F'],
+                     /* Comentarios */   ['Suma','Resta','Producto','Cociente','Potencia','Operador AND',
+                                         'Operador OR','Operador NOT','Operador XOR','Mover a Memoria', 'Finalizar']];
+
+
+
+
 
 //Clase que representa el decodificador
 class Decodificador{
@@ -334,9 +346,15 @@ class VonNeumman{
                         break;
                     case '&':
                         resultado = toBin(num1 & num2, false, true);
+                        alert(resultado);
+
                         break;
                     case '|':
                         resultado = toBin(num1 | num2, false, true);
+                        break;
+                    case '!':
+                        resultado = toBin(Math.abs(~num2), false, true);
+                        alert(resultado);
                         break;
                     case '⊕':
                         resultado = toBin(num1 ^ num2, false, true);
@@ -448,6 +466,16 @@ class VonNeumman{
                 case '|':
                     resultado = toBin(num1 | num2, false, true);
                     break;
+                case '!':
+                    let binarioNegar = toBin(num2, true, false);
+                    let binarioNegado = ''
+                    for(var b=0; b < binarioNegar.length;b++){
+                        binarioNegado += (binarioNegar[b]=='1'? 0: 1);
+                    }
+                    alert(binarioNegar+"--"+binarioNegado);
+                    resultado = binarioNegado
+                    //alert("not "+resultado);
+                    break;
                 case '⊕':
                     resultado = toBin(num1 ^ num2, false, true);
                     break; 
@@ -478,10 +506,9 @@ class VonNeumman{
                 
                 //Se resalta la primera posicion que es en la cual se deja el cursor al finalizar
                 let dato = this.memoria.buscar(direccion);
-                
+                        
                 //Se finalizan los pulsos
                 clearInterval(interval);
-                
             }            
             
             
@@ -532,7 +559,7 @@ class Registro{
 
 //Se instancia y ejecuta la funcionalidad de la clase VonNeumman el numero del segundo parametro representa el tiempo que dura cada pulso en ms
 var vn = new VonNeumman(memoria, decodificador);
-var interval = setInterval(vn.desplazarDirecto, 500);
+var interval = setInterval(vn.desplazarDirecto, 2000);
 
 
 //Funciones para conversion Binario-Decimal
