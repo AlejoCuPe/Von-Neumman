@@ -19,8 +19,8 @@ let decodificador = [/* Instrucciones */ ['0000','0001','0010','0011','0100','01
                                          'Operador OR','Operador NOT','Operador XOR','Mover a Memoria', 'Finalizar']];
 
 
-
-
+//Tiempo que transcurre entre cada pulso
+let tiempo = 1000;
 
 //Clase que representa el decodificador
 class Decodificador{
@@ -31,11 +31,18 @@ class Decodificador{
     
     //Se obtiene la operacion de acuerdo al nibble que sea pasado como parametro, en caso de que exista y se resalta
     obtenerO = (binario) => {
+        //Se obtiene el arreglo de instrucciones
         let it = this.instrucciones;
+        //Por cada elemento en el arreglo se hace lo siguiente
         for(let i = 0; i < it.length; i++){
+            //1. Se verifica si corresponde al binario que se recibe como parametro
             if(it[i] == binario){
+                //En caso de que concuerden...
+                //2. Se obtiene el elemento tr que corresponde a la fila donde se encuentra ese binario
                 let tr = document.getElementById("tr"+i);
+                //3. Se agrega al elemento tr una clase llamada resaltar (que esta en el css) que cambia el estilo de la letra
                 tr.classList.add("resaltar");
+                //4. Se devuelve la operacion en la posicion en la que se encuentra esa instruccion
                 return this.operaciones[i];
             }
         }
@@ -45,18 +52,25 @@ class Decodificador{
     //Se crea una fila (tr) por cada array y luego a cada fila se agregan los datos (td) de instruccion, operacion y contenido.
     llenar = () => {
         
+        //Se llama al elemento tabla        
         var table = document.getElementById("decoT");
         
+        //De acuerdo a la longitud de instrucciones se hace lo siguiente
         for(let i = 0; i < this.instr[0].length; i++){
+            //1. Crear un elemento tr (table-row)
             let tr = document.createElement("tr");
+            //2. Asignarle un id a ese elemento
             tr.id = "tr"+i;
+            //3. Iterar sobre los componentes del array del objeto del decodificar (en este caso los componentes son 3 arrays)
             for(let j = 0; j < this.instr.length; j++){
+                //4. Por cada array se obtiene el contenido y se crea un elemento td (table-data) y se adjunta al elemento tr
                 let arr = this.instr[j];
                 let tx = document.createTextNode(arr[i]);
                 let td = document.createElement("td");
                 td.append(tx);
                 tr.append(td);
             }
+            //5. Se adjunta el elemento tr al elemento tabla
             table.append(tr);
         }
     }
@@ -93,19 +107,20 @@ class Memoria{
             this.content.set(toBin(index, true), inst);
         });
         
-        //Llenado del mapa con los datos
+        //Llenado del mapa con los datos, como los datos van en la segunda parte de la memoria, se suma 128.
         this.datos.forEach((data, index) => {
             this.content.set(toBin(index + 128, true), data);
         })
         
-        //Se agregan las direcciones disponibles para guardar informacion
+        //Se agregan las direcciones disponibles para guardar informacion en 2 pasos
+        //1. Se cuentan cuantas llaves corresponden a llaves de datos
         let direccion = 0;
         for(let key of this.content.keys()){
             if(key.charAt(0) == "1"){
                 direccion++;
             }
         }
-        
+        //2. Se toma el valor del contador, se le suma 128 para que se agregue a la segunda mitad de la memoria y se incrementa en 1 (El numero de veces que se itera cambia dependiendo de cuantos espacios libres de memoria se van a dejar para llenar durante la ejecucion, en este caso son 3)
         for(let i = 0; i < 4; i++ ){
             this.content.set(toBin(direccion + 128, true), null);
             direccion++;
@@ -142,7 +157,8 @@ class Memoria{
             dc.style.width = "0px";
             
             /*
-            Se verifica si el par clave-valor es de instrucciones o de datos mediante el primer bit de la direccion y se agregan las divisiones previamente creadas a la division padre correspondiente si no son nulas.
+            Se verifica si el par clave-valor es de instrucciones o de datos mediante el primer bit de la direccion (las direcciones de instrucciones comienzan con 0 y las de datos con 1) y se agregan las divisiones previamente creadas a la division padre correspondiente si no son nulas.
+            - Los valores nulos corresponden a los datos que se van a llenar durante la ejecucion
             */
             if(key.charAt(0) == '0'){
                 dirI.append(dd);
@@ -154,7 +170,7 @@ class Memoria{
                 }
             }
             
-        });   
+        });  
         
     }
     
@@ -164,6 +180,7 @@ class Memoria{
         //Se llaman a todas las divisiones correspondientes
         var conD = document.getElementById("contenidoD");
         
+        //Se agrega la direccion como key y el contenido como value del atributo content de la memoria
         this.content.set(direccion, contenido);
         
         //Se crea el nodo de texto para el contenido en esa direccion
@@ -171,7 +188,9 @@ class Memoria{
         
         //Se crea una division para el contenido en esa direccion (dc)
         let dc = document.createElement("div");
+        //Se le asigna el id a esa division
         dc.id = contenido + direccion;
+        //Se le agrega la clase que la resalta
         dc.classList.add("resaltar");
 
         //Se agrega el nodo de texto a la division correspondiente, el estilo de width se aplica para responsividad
@@ -185,8 +204,11 @@ class Memoria{
     
     //Se obtiene el contenido de acuerdo a la direccion en el parametro y se resalta
     buscar = (direccion, pulso) => {
+        //Se obtiene el value (contenido) correspondiente al key (direccion)
         let contenido = this.content.get(direccion);
+        //Se resalta la direccion
         document.getElementById(direccion).classList.add("resaltar");
+        //Se verifica si el contenido en esa direccion no es nulo y se resalta
         if(contenido != null){
             document.getElementById(contenido+direccion).classList.add("resaltar");
         }
@@ -252,9 +274,8 @@ class VonNeumman{
         //Se pasa el pulso a binario
         this.pulsoBinario = toBin(this.pulsos, true);
         
-        //Esta linea elimina el resaltado en el decodificador y en la memoria
-        Array.from(document.getElementById("decoT").getElementsByClassName("resaltar")).forEach(tr => { tr.classList.remove("resaltar") });
-        Array.from(document.getElementById("contenido").getElementsByClassName("resaltar")).forEach(tr => { tr.classList.remove("resaltar") });   
+        //Esta linea elimina el resaltado de todo lo que este resaltado
+        Array.from(document.body.getElementsByClassName("resaltar")).forEach(tr => { tr.classList.remove("resaltar") });  
         
         //Para mostrar de manera secuencial por pulso, en cada pulso se resetea o incrementa el contador de pasos.
         switch(this.pasos){
@@ -346,15 +367,22 @@ class VonNeumman{
                         break;
                     case '&':
                         resultado = toBin(num1 & num2, false, true);
-                        alert(resultado);
+                        //alert(resultado);
 
                         break;
                     case '|':
                         resultado = toBin(num1 | num2, false, true);
                         break;
                     case '!':
-                        resultado = toBin(Math.abs(~num2), false, true);
-                        alert(resultado);
+                        let binarioNegar = toBin(num2, true, false);
+                        let binarioNegado = ''
+                        for(var b=0; b < binarioNegar.length;b++){
+                            binarioNegado += (binarioNegar[b]=='1'? 0: 1);
+                        }
+                        resultado = binarioNegado
+                        alert(binarioNegar+"--"+binarioNegado);
+                        alert("not "+resultado);
+                    break;
                         break;
                     case '⊕':
                         resultado = toBin(num1 ^ num2, false, true);
@@ -472,9 +500,9 @@ class VonNeumman{
                     for(var b=0; b < binarioNegar.length;b++){
                         binarioNegado += (binarioNegar[b]=='1'? 0: 1);
                     }
-                    alert(binarioNegar+"--"+binarioNegado);
                     resultado = binarioNegado
-                    //alert("not "+resultado);
+                    alert(binarioNegar+"--"+binarioNegado);
+                    alert("not "+resultado);
                     break;
                 case '⊕':
                     resultado = toBin(num1 ^ num2, false, true);
@@ -540,6 +568,7 @@ class Registro{
         let txt = document.createTextNode(binario);
         let ndiv = document.createElement('div');
         ndiv.append(txt);
+        ndiv.classList.add("resaltar");
         
         if(end){
             ndiv.style.borderBottom = "2px solid white";
@@ -559,7 +588,7 @@ class Registro{
 
 //Se instancia y ejecuta la funcionalidad de la clase VonNeumman el numero del segundo parametro representa el tiempo que dura cada pulso en ms
 var vn = new VonNeumman(memoria, decodificador);
-var interval = setInterval(vn.desplazarDirecto, 2000);
+var interval = setInterval(vn.desplazarSecuencial, tiempo);
 
 
 //Funciones para conversion Binario-Decimal

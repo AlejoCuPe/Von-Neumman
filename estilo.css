@@ -220,7 +220,7 @@ table{
 
 #acumulador, #registroE{
     height: 100%;
-    width: 33%;
+    width: 34%;
     position: absolute;
 }
 
@@ -314,4 +314,7 @@ table{
 
 .resaltar{
     color: aqua;
+    font-weight: bolder;
+    font-size: 0.95vw;
+    transition: all 0.5s;
 }
