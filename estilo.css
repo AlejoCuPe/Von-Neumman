@@ -25,22 +25,31 @@ html, body {
 }
 
 #textoinicio {
+    font-family: sans-serif;
+    margin-left: 130px;
     color: white;
     font-size: 30px;
 }
 
-#operacion {
-    margin-top: 2%;
+.botoninicio {
+    font-family: sans-serif;
+    margin-top: 4%;
+    margin-left: 13%;
     height: 30px;
-    width: 300px;
-    margin-left: 22%
+    width: 400px;
+    color: white;
+    background-color: black;
+    font-weight: bolder;
+    border: 2px solid white;
+    transition: all 1s;
 }
 
-#botoninicio {
-    margin-top: 4%;
-    margin-left: 22%;
-    height: 30px;
-    width: 300px;
+.botoninicio:hover{
+    background-color: white;
+    color: black;
+    height: 40px;
+    width: 400px;
+    font-weight: bolder;
 }
 
 table{

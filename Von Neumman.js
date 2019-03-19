@@ -6,17 +6,14 @@
 //                                             '000010000101','010010000110','000010001001','100110001010','101000000000'],
 //             /* Aqui van los datos*/ ['000000000000','000000001001','000000000011','000000001011','000000000111','000000001100','000000000010']];
 
-var memoria = [/* Aqui van las instrucciones */ ['000010000001','100110000011','011110000011','010110000010','100010000001','100110000100','101000000000'],
-            /* Aqui van los datos*/             ['000000000000','000001101100','000011011110']];
-
-
+var memoria = [[''],
+               ['']];
 
 //Array para llenar el decodificador
 let decodificador = [/* Instrucciones */ ['0000','0001','0010','0011','0100','0101','0110','0111','1000','1001','1010'],
                      /* Operaciones */   ['+','-','*','/','^','&','|','!','⊕','M','F'],
                      /* Comentarios */   ['Suma','Resta','Producto','Cociente','Potencia','Operador AND',
                                          'Operador OR','Operador NOT','Operador XOR','Mover a Memoria', 'Finalizar']];
-
 
 //Tiempo que transcurre entre cada pulso
 let tiempo = 1000;
@@ -583,32 +580,30 @@ class Registro{
 }
 
 //Se instancia y ejecuta la funcionalidad de la clase VonNeumman el numero del segundo parametro representa el tiempo que dura cada pulso en ms
-function iniciar(numero){
-    console.log(numero);
-    if(numero == 1 | numero == 2 | numero == 3){
-        document.getElementById('omaiga').style['visibility'] = 'hidden';
-        document.getElementById('plantilla').style['visibility'] = 'visible';
-        if(numero == 1){
-            memoria = [/* Aqui van las instrucciones */ ['000010000001','010010000010','100010000111','001010000000','000010000011','001010000100','100010001000','001010000000','000010000111','000110001000','100010001001','001010000000','000010000101','010010000110','000010001001','100010001010','100100000000'],
+function iniciarop1(){
+    document.getElementById('omaiga').style['visibility'] = 'hidden';
+    document.getElementById('plantilla').style['visibility'] = 'visible';
+    memoria = [/* Aqui van las instrucciones */ ['000010000001','010010000010','100010000111','001010000000','000010000011','001010000100','100010001000','001010000000','000010000111','000110001000','100010001001','001010000000','000010000101','010010000110','000010001001','100010001010','100100000000'],
                        /* Aqui van los datos*/          ['000000000000','000000001001','000000000011','000000001011','000000000111','000000001100','000000000010']];
-        }
-        if(numero == 2){
-
-        }
-        if(numero == 3){
-            memoria = [/* Aqui van las instrucciones */ ['000010000001','001110000010','000010000011','100010000111','001010000000','000010000100','000010000100','010110000101','100010001000','001010000000','000010000110','010010000110','000010001000','100010001001','001010000000','000010000111','000110001001','100010001010','100100000000'],
-                       /* Aqui van los datos*/          ['000000000000','000110100101','000000000111','000101000010','000000000101','000000000010','000000000011']];
-        }
-        var vn = new VonNeumman(memoria, decodificador);
-        var interval = setInterval(vn.desplazarSecuencial, tiempo);
-    }
-    else{
-        document.getElementById('textoinicio').innerHTML = 'Ingrese un número valido!';
-        document.getElementById('textoinicio').style['color'] = 'red';
-    }
+    var vn = new VonNeumman(memoria, decodificador);
+    var interval = setInterval(vn.desplazarSecuencial, tiempo); 
 }
 
+function iniciarop2(){
+    document.getElementById('omaiga').style['visibility'] = 'hidden';
+    document.getElementById('plantilla').style['visibility'] = 'visible';
+    var vn = new VonNeumman(memoria, decodificador);
+    var interval = setInterval(vn.desplazarSecuencial, tiempo); 
+}
 
+function iniciarop3(){
+    document.getElementById('omaiga').style['visibility'] = 'hidden';
+    document.getElementById('plantilla').style['visibility'] = 'visible';
+    memoria = [['000010000001','001110000010','000010000011','100010000111','001010000000','000010000100','000010000100','010110000101','100010001000','001010000000','000010000110','010010000110','000010001000','100010001001','001010000000','000010000111','000110001001','100010001010','100100000000'],
+               ['000000000000','000110100101','000000000111','000101000010','000000000101','000000000010','000000000011']];
+    var vn = new VonNeumman(memoria, decodificador);
+    var interval = setInterval(vn.desplazarSecuencial, tiempo); 
+}
 
 //Funciones para conversion Binario-Decimal
 function toDec(binario){
