@@ -6,7 +6,6 @@
 //                                             '000010000101','010010000110','000010001001','100110001010','101000000000'],
 //             /* Aqui van los datos*/ ['000000000000','000000001001','000000000011','000000001011','000000000111','000000001100','000000000010']];
 
-
 let memoria = [/* Aqui van las instrucciones */ ['000010000001','100110000011','011110000011','010110000010','100010000001','100110000100','101000000000'],
             /* Aqui van los datos*/             ['000000000000','000001101100','000011011110']];
 
@@ -584,8 +583,20 @@ class Registro{
 }
 
 //Se instancia y ejecuta la funcionalidad de la clase VonNeumman el numero del segundo parametro representa el tiempo que dura cada pulso en ms
-var vn = new VonNeumman(memoria, decodificador);
-var interval = setInterval(vn.desplazarSecuencial, tiempo);
+function iniciar(numero){
+    console.log(numero);
+    if(numero == 1 | numero == 2 | numero == 3){
+        document.getElementById('plantilla').style['visibility'] = 'visible';
+        var vn = new VonNeumman(memoria, decodificador);
+        var interval = setInterval(vn.desplazarSecuencial, tiempo);
+    }
+    else{
+        document.getElementById('textoinicio').innerHTML = 'Ingrese un número valido!';
+        document.getElementById('textoinicio').style['color'] = 'red';
+    }
+    
+}
+
 
 
 //Funciones para conversion Binario-Decimal

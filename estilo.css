@@ -6,7 +6,6 @@ html, body {
     background-color: black;
 }
 
-
 #container {
     width: 100%;
 }
@@ -15,6 +14,33 @@ html, body {
     height: 100%;
     width: 100%;
     background-color: black;
+}
+
+#omaiga {
+    margin-top: 12%;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 5%;
+    border: 2px solid white;
+}
+
+#textoinicio {
+    color: white;
+    font-size: 30px;
+}
+
+#operacion {
+    margin-top: 2%;
+    height: 30px;
+    width: 300px;
+    margin-left: 22%
+}
+
+#botoninicio {
+    margin-top: 4%;
+    margin-left: 22%;
+    height: 30px;
+    width: 300px;
 }
 
 table{
@@ -317,4 +343,8 @@ table{
     font-weight: bolder;
     font-size: 0.95vw;
     transition: all 0.5s;
+}
+
+.prueba{
+    visibility: hidden;
 }

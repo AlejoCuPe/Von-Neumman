@@ -7,10 +7,16 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script type="text/javascript" src="Von%20Neumman.js"></script>
     </head>
     <body>
-        <div id="plantilla">
-            
+        <div id="omaiga">
+            <p id="textoinicio">Ingrese el número de la operación a realizar</p><br>
+            <input type="text" id="operacion"><br>
+            <button onclick="iniciar(document.getElementById('operacion').value)" id="botoninicio">Elegir Operación</button>
+        </div>
+        
+        <div id="plantilla" class="prueba">
             <!-- Esta division contiene el registro de instrucciones, el decodificar, el contador y el ALU -->
             <div id="container">
                 <!-- Division correspondiente a la tabla del decodificador, se llena mediante js -->
@@ -120,5 +126,5 @@
             <div id="RDtaRE"></div>
         </div>
     </body>
-    <script type="text/javascript" src="Von%20Neumman.js"></script>
+    
 </html>
