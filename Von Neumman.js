@@ -3,7 +3,8 @@ var vn;
 var op;
 var interval;
 
-
+var byte;
+var doce;
 var memoria = [[''],
                ['']];
 
