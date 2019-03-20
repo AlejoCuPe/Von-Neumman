@@ -632,6 +632,8 @@ function iniciarop1(){
 function iniciarop2(){
     document.getElementById('omaiga').style['visibility'] = 'hidden';
     document.getElementById('plantilla').style['visibility'] = 'visible';
+    memoria = [/* Aqui van las instrucciones */ ['000010000001','100110000011','011110000011','010110000010','100010000001','100110000100','101000000000'],
+               /* Aqui van los datos*/          ['000000000000','000001101100','000011011110']];
     vn = new VonNeumman(memoria, decodificador);
     interval = setInterval(vn.desplazarSecuencial, tiempo); 
     op = "2";
