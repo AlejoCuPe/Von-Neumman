@@ -9,6 +9,8 @@
 var vn;
 var op;
 var interval;
+var byte;
+var doce;
 
 var memoria = [[''],
                ['']];
@@ -367,35 +369,43 @@ class VonNeumman{
                 break;
             case 9:
                 //10. Se hace la operacion correspondiente (Aritmetica o Logica), se agrega al acumulador, se reinicia el contador de pasos y se incrementan los pulsos
+                if(memoria[0].length>15){
+                    doce = true;
+                    byte = false;
+                }
+                else{
+                    doce = false;
+                    byte = true;
+                }
                 let num1 = toDec(this.acumulador.getRegistro(this.pulsos));
                 let num2 = toDec(this.registroEntrada.getRegistro(this.registroEntrada.datos.length - 1));
                 let resultado = "";
                 switch(this.operacion){
                     case '+':    
-                        resultado = toBin(num1 + num2, false, true);
+                        resultado = toBin(num1 + num2, byte, doce);
                         break;
                     case '-':
-                        resultado = toBin(num1 - num2, false, true);
+                        resultado = toBin(num1 - num2, byte, doce);
                         break;
                     case '*':
-                        resultado = toBin(num1 * num2, false, true);
+                        resultado = toBin(num1 * num2, byte, doce);
                         break;
                     case '/':
-                        resultado = toBin(Math.floor(num1 / num2), false, true);
+                        resultado = toBin(Math.floor(num1 / num2), byte, doce);
                         break;
                     case '^':
-                        resultado = toBin(num1 ** num2, false, true);
+                        resultado = toBin(num1 ** num2, byte, doce);
                         break;
                     case '&':
-                        resultado = toBin(num1 & num2, false, true);
+                        resultado = toBin(num1 & num2, byte, doce);
                         //alert(resultado);
 
                         break;
                     case '|':
-                        resultado = toBin(num1 | num2, false, true);
+                        resultado = toBin(num1 | num2, byte, doce);
                         break;
                     case '!':
-                        let binarioNegar = toBin(num2, true, false);
+                        let binarioNegar = toBin(num2, byte, doce);
                         let binarioNegado = ''
                         for(var b=0; b < binarioNegar.length;b++){
                             binarioNegado += (binarioNegar[b]=='1'? 0: 1);
@@ -406,7 +416,7 @@ class VonNeumman{
                     break;
                         break;
                     case '⊕':
-                        resultado = toBin(num1 ^ num2, false, true);
+                        resultado = toBin(num1 ^ num2, byte, doce);
                         break;                     
 
                 }
@@ -494,6 +504,15 @@ class VonNeumman{
         if(operacion != 'M' && operacion!= 'F'){
             this.registroDatos.agregarB(dato, true);
             this.registroEntrada.agregarB(dato, true);
+
+            if(memoria[0].length>15){
+                doce = true;
+                byte = false;
+            }
+            else{
+                doce = false;
+                byte = true;
+            }
             
             //7. Se hace la operacion correspondiente si es aritmetica o logica
             let num1 = toDec(this.acumulador.getRegistro(this.pulsos, true));
@@ -501,28 +520,28 @@ class VonNeumman{
             let resultado = "";
             switch(operacion){
                 case '+':    
-                    resultado = toBin(num1 + num2, false, true);
+                    resultado = toBin(num1 + num2, byte, doce);
                     break;
                 case '-':
-                    resultado = toBin(num1 - num2, false, true);
+                    resultado = toBin(num1 - num2, byte, doce);
                     break;
                 case '*':
-                    resultado = toBin(num1 * num2, false, true);
+                    resultado = toBin(num1 * num2, byte, doce);
                     break;
                 case '/':
-                    resultado = toBin(Math.floor(num1 / num2), false, true);
+                    resultado = toBin(Math.floor(num1 / num2), byte, doce);
                     break;
                 case '^':
-                    resultado = toBin(num1 ** num2, false, true);
+                    resultado = toBin(num1 ** num2, byte, doce);
                     break;
                 case '&':
-                    resultado = toBin(num1 & num2, false, true);
+                    resultado = toBin(num1 & num2, byte, doce);
                     break;
                 case '|':
-                    resultado = toBin(num1 | num2, false, true);
+                    resultado = toBin(num1 | num2, byte, doce);
                     break;
                 case '!':
-                    let binarioNegar = toBin(num2, true, false); // Binario 1 byte
+                    let binarioNegar = toBin(num2, byte, doce); // Binario 1 byte
                     let binarioNegado = ''
                     for(var b=0; b < binarioNegar.length;b++){
                         binarioNegado += (binarioNegar[b]=='1'? 0: 1);
@@ -532,7 +551,7 @@ class VonNeumman{
                     //alert("not "+resultado);
                     break;
                 case '⊕':
-                    resultado = toBin(num1 ^ num2, false, true);
+                    resultado = toBin(num1 ^ num2, byte, doce);
                     break; 
                     
             }
@@ -632,8 +651,8 @@ function iniciarop1(){
 function iniciarop2(){
     document.getElementById('omaiga').style['visibility'] = 'hidden';
     document.getElementById('plantilla').style['visibility'] = 'visible';
-    memoria = [/* Aqui van las instrucciones */ ['000010000001','100110000011','011110000011','010110000010','100010000001','100110000100','101000000000'],
-               /* Aqui van los datos*/          ['000000000000','000001101100','000011011110']];
+    memoria = [/* Aqui van las instrucciones */ ['00001001','10011011','01111011','01011010','10001001','10011100','10100000'],
+               /* Aqui van los datos*/          ['00000000','01101100','11011110']];
     vn = new VonNeumman(memoria, decodificador);
     interval = setInterval(vn.desplazarSecuencial, tiempo); 
     op = "2";
