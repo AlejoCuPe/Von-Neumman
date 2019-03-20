@@ -2,12 +2,10 @@
 var vn;
 var op;
 var interval;
-<<<<<<< HEAD
 var byte;
 var doce;
 
-=======
->>>>>>> f69f35faba091ec751c6fbd117de1f6b433b0e54
+
 var memoria = [[''],
                ['']];
 
