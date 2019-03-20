@@ -1,15 +1,7 @@
-
-  
-// //Array para llenar la tabla de memoria
-// let memoria = [/* Aqui van las instrucciones */ ['000010000001','010010000010','100110000111','001010000000','000010000011','001010000100',
-//                                             '100110001000','001010000000','000010000111','000110001000','100110001001','001010000000',
-//                                             '000010000101','010010000110','000010001001','100110001010','101000000000'],
-//             /* Aqui van los datos*/ ['000000000000','000000001001','000000000011','000000001011','000000000111','000000001100','000000000010']];
-
+//Variables de inicializacion
 var vn;
 var op;
 var interval;
-
 var memoria = [[''],
                ['']];
 
@@ -20,7 +12,7 @@ let decodificador = [/* Instrucciones */ ['0000','0001','0010','0011','0100','01
                                          'Operador OR','Operador NOT','Operador XOR','Guardar', 'Finalizar']];
 
 //Tiempo que transcurre entre cada pulso
-let tiempo = 10;
+let tiempo = 1000;
 
 //Clase que representa el decodificador
 class Decodificador{
@@ -41,7 +33,7 @@ class Decodificador{
                 //2. Se obtiene el elemento tr que corresponde a la fila donde se encuentra ese binario
                 let tr = document.getElementById("tr"+i);
                 //3. Se agrega al elemento tr una clase llamada resaltar (que esta en el css) que cambia el estilo de la letra
-                tr.classList.add("resaltar");
+                tr.classList.add("resaltarD");
                 document.getElementById("decodificador").scrollIntoView({ block: 'start',  behavior: 'smooth' });
                 //4. Se devuelve la operacion en la posicion en la que se encuentra esa instruccion
                 return this.operaciones[i];
@@ -286,7 +278,8 @@ class VonNeumman{
         this.pulsoBinario = toBin(this.pulsos, true);
         
         //Esta linea elimina el resaltado de todo lo que este resaltado
-        Array.from(document.body.getElementsByClassName("resaltar")).forEach(tr => { tr.classList.remove("resaltar") });  
+        Array.from(document.body.getElementsByClassName("resaltar")).forEach(tr => { tr.classList.remove("resaltar") }); 
+        Array.from(document.body.getElementsByClassName("resaltarD")).forEach(tr => { tr.classList.remove("resaltarD") }); 
         
         //Para mostrar de manera secuencial por pulso, en cada pulso se resetea o incrementa el contador de pasos.
         switch(this.pasos){
@@ -400,7 +393,7 @@ class VonNeumman{
                         for(var b=0; b < binarioNegar.length;b++){
                             binarioNegado += (binarioNegar[b]=='1'? 0: 1);
                         }
-                        resultado = binarioNegado
+                        resultado = binarioNegado;
                         //alert(binarioNegar+"--"+binarioNegado);
                         //alert("not "+resultado);
                     break;
@@ -615,8 +608,7 @@ class Registro{
     }   
 }
 
-//Se instancia y ejecuta la funcionalidad de la clase VonNeumman el numero del segundo parametro representa el tiempo que dura cada pulso en ms
-
+//Funciones que representan la inicializacion según la operación que se elija
 function iniciarop1(){
     document.getElementById('omaiga').style['visibility'] = 'hidden';
     document.getElementById('plantilla').style['visibility'] = 'visible';
@@ -649,6 +641,7 @@ function iniciarop3(){
     op = "3";
 }
 
+//Pausar la operacion
 function pause(){
     let d1 = document.getElementById("pause");
     let d2 = document.getElementById("play");
@@ -657,6 +650,7 @@ function pause(){
     clearInterval(interval);
 }
 
+//Reanudar la operacion
 function play(){
     let d1 = document.getElementById("pause");
     let d2 = document.getElementById("play");
@@ -665,6 +659,7 @@ function play(){
     interval = setInterval(vn.desplazarSecuencial, tiempo);  
 }
 
+//Reiniciar
 function replay(){
     window.location.reload(false);
 }
