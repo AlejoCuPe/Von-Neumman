@@ -6,6 +6,10 @@
 //                                             '000010000101','010010000110','000010001001','100110001010','101000000000'],
 //             /* Aqui van los datos*/ ['000000000000','000000001001','000000000011','000000001011','000000000111','000000001100','000000000010']];
 
+var vn;
+var op;
+var interval;
+
 var memoria = [[''],
                ['']];
 
@@ -13,10 +17,10 @@ var memoria = [[''],
 let decodificador = [/* Instrucciones */ ['0000','0001','0010','0011','0100','0101','0110','0111','1000','1001','1010'],
                      /* Operaciones */   ['+','-','*','/','^','&','|','!','⊕','M','F'],
                      /* Comentarios */   ['Suma','Resta','Producto','Cociente','Potencia','Operador AND',
-                                         'Operador OR','Operador NOT','Operador XOR','Mover a Memoria', 'Finalizar']];
+                                         'Operador OR','Operador NOT','Operador XOR','Guardar', 'Finalizar']];
 
 //Tiempo que transcurre entre cada pulso
-let tiempo = 1000;
+let tiempo = 10;
 
 //Clase que representa el decodificador
 class Decodificador{
@@ -38,6 +42,7 @@ class Decodificador{
                 let tr = document.getElementById("tr"+i);
                 //3. Se agrega al elemento tr una clase llamada resaltar (que esta en el css) que cambia el estilo de la letra
                 tr.classList.add("resaltar");
+                document.getElementById("decodificador").scrollIntoView({ block: 'start',  behavior: 'smooth' });
                 //4. Se devuelve la operacion en la posicion en la que se encuentra esa instruccion
                 return this.operaciones[i];
             }
@@ -184,10 +189,9 @@ class Memoria{
         
         //Se crea una division para el contenido en esa direccion (dc)
         let dc = document.createElement("div");
+        
         //Se le asigna el id a esa division
         dc.id = contenido + direccion;
-        //Se le agrega la clase que la resalta
-        dc.classList.add("resaltar");
 
         //Se agrega el nodo de texto a la division correspondiente, el estilo de width se aplica para responsividad
         dc.append(txc);
@@ -195,6 +199,11 @@ class Memoria{
         
         //Se adjuntan las divisiones a la division de datos
         conD.append(dc);
+        
+        //Se scrollea hasta el div
+        let elmnt = document.getElementById(contenido + direccion);
+        elmnt.scrollIntoView({ block: 'end',  behavior: 'smooth' });
+        elmnt.classList.add("resaltar");
         
     }
     
@@ -206,7 +215,9 @@ class Memoria{
         document.getElementById(direccion).classList.add("resaltar");
         //Se verifica si el contenido en esa direccion no es nulo y se resalta
         if(contenido != null){
-            document.getElementById(contenido+direccion).classList.add("resaltar");
+            let elmnt = document.getElementById(contenido+direccion);
+            elmnt.classList.add("resaltar");
+            elmnt.scrollIntoView({ block: 'end',  behavior: 'smooth' });
         }
         return contenido;
         
@@ -267,6 +278,10 @@ class VonNeumman{
     //Se ejecuta todo, por cada pulso de reloj se ejecuta un paso de la operacion
     desplazarSecuencial = () => {
         
+        let log = document.getElementById('log');
+        let mof = document.getElementById('MoF');
+        let mp = document.getElementById('Mp');
+        
         //Se pasa el pulso a binario
         this.pulsoBinario = toBin(this.pulsos, true);
         
@@ -277,8 +292,11 @@ class VonNeumman{
         switch(this.pasos){
             case 0: 
                 //1. Se agrega el pulso del contador
+                log.innerHTML = "";
+                log.style.fontSize = "2vw";
                 this.contador.agregarB(this.pulsoBinario, true);
                 this.pasos++;
+                log.innerHTML = "Acumulador en  " + toDec(this.acumulador.getRegistro(this.pulsos));
                 break;
             case 1:
                 //2. Se pasa el pulso del contador al Registro de Direcciones
@@ -320,12 +338,18 @@ class VonNeumman{
                 */
                 if(this.operacion != 'M' && this.operacion!= 'F'){
                     this.dato = this.memoria.buscar(this.direccion);
+                    log.innerHTML = toDec(this.acumulador.getRegistro(this.pulsos))+" "+this.operacion;
                     this.pasos++;
                 }else{
                     if(this.operacion == 'F'){
                         this.pasos = 10;
+                        mof.innerHTML = "Finalizar";
+                        log.innerHTML = "";
                     }else{
                         this.pasos = 11;
+                        mof.innerHTML = "Guardar ";
+                        log.innerHTML = toDec(this.acumulador.getRegistro(this.pulsos));
+                        mp.innerHTML = " en  "+this.direccion;
                     }
                 }
                 
@@ -338,6 +362,7 @@ class VonNeumman{
             case 8:
                 //9. Se agrega el dato al registro de Entrada
                 this.registroEntrada.agregarB(this.dato, true);
+                log.innerHTML += " "+toDec(this.dato);
                 this.pasos++;
                 break;
             case 9:
@@ -356,7 +381,7 @@ class VonNeumman{
                         resultado = toBin(num1 * num2, false, true);
                         break;
                     case '/':
-                        resultado = toBin(num1 / num2, false, true);
+                        resultado = toBin(Math.floor(num1 / num2), false, true);
                         break;
                     case '^':
                         resultado = toBin(num1 ** num2, false, true);
@@ -385,8 +410,9 @@ class VonNeumman{
                         break;                     
 
                 }
-                //console.log(`${num1} ${this.operacion} ${num2} = ${toDec(resultado)}`);
                 this.acumulador.agregarB(resultado, true);
+                log.innerHTML += " = " + toDec(resultado);
+                log.style.fontSize = "2.1vw";
                 this.pasos = 0;
                 this.pulsos++;
                 break;
@@ -395,7 +421,10 @@ class VonNeumman{
                 //Finalizar         
                 //Se resalta la primera posicion que es en la cual se deja el cursor al finalizar
                 let dato = this.memoria.buscar(this.direccion);
-
+                document.getElementById("play").style.display = 'none';
+                document.getElementById("pause").style.display = 'none';
+                document.getElementById("replay").style.display = 'block';
+                this.pasos = 0;
                 //Se finalizan los pulsos
                 clearInterval(interval);
                 break;
@@ -415,6 +444,8 @@ class VonNeumman{
                 //Mover a memoria 3
                 //Se guarda en la memoria ese dato en la posicion indicada en la direccion, se reinician los pasos y se incrementan los pulsos
                 this.memoria.agregar(this.direccion, this.acumulador.getRegistro(this.acumulador.datos.length - 1));
+                mof.innerHTML = "";
+                mp.innerHTML = "";
                 this.pasos = 0;          
                 this.pulsos ++;
                 break;
@@ -471,19 +502,19 @@ class VonNeumman{
             switch(operacion){
                 case '+':    
                     resultado = toBin(num1 + num2, false, true);
-                break;
+                    break;
                 case '-':
                     resultado = toBin(num1 - num2, false, true);
-                break;
+                    break;
                 case '*':
                     resultado = toBin(num1 * num2, false, true);
-                break;
+                    break;
                 case '/':
-                    resultado = toBin(num1 / num2, false, true);
-                break;
+                    resultado = toBin(Math.floor(num1 / num2), false, true);
+                    break;
                 case '^':
                     resultado = toBin(num1 ** num2, false, true);
-                break;
+                    break;
                 case '&':
                     resultado = toBin(num1 & num2, false, true);
                     break;
@@ -551,6 +582,7 @@ class Registro{
         
         this.datos = [];    
         this.divName = divName;
+        this.cont = 0;
         
     }
     
@@ -563,14 +595,18 @@ class Registro{
         let div = document.getElementById(this.divName);
         let txt = document.createTextNode(binario);
         let ndiv = document.createElement('div');
+        ndiv.id = this.divName + this.cont;
         ndiv.append(txt);
-        ndiv.classList.add("resaltar");
         
         if(end){
             ndiv.style.borderBottom = "2px solid white";
         }
         
         div.append(ndiv);
+        let elmnt = document.getElementById(this.divName + this.cont);
+        this.cont ++;
+        elmnt.classList.add("resaltar");
+        elmnt.scrollIntoView({ block: 'end',  behavior: 'smooth' });
         
     }
     
@@ -580,29 +616,55 @@ class Registro{
 }
 
 //Se instancia y ejecuta la funcionalidad de la clase VonNeumman el numero del segundo parametro representa el tiempo que dura cada pulso en ms
+
 function iniciarop1(){
     document.getElementById('omaiga').style['visibility'] = 'hidden';
     document.getElementById('plantilla').style['visibility'] = 'visible';
-    memoria = [/* Aqui van las instrucciones */ ['000010000001','010010000010','100010000111','001010000000','000010000011','001010000100','100010001000','001010000000','000010000111','000110001000','100010001001','001010000000','000010000101','010010000110','000010001001','100010001010','100100000000'],
-                       /* Aqui van los datos*/          ['000000000000','000000001001','000000000011','000000001011','000000000111','000000001100','000000000010']];
-    var vn = new VonNeumman(memoria, decodificador);
-    var interval = setInterval(vn.desplazarSecuencial, tiempo); 
+    memoria = [['000010000001','001110000010','000010000011','100110000111','001010000000','000010000100','010010000101','100110001000','001010000000','000010000110','010010000110','000010001000','100110001001','001010000000','000010000111','000110001001','100110001010','101000000000'],
+               ['000000000000','000110100101','000000000111','000101000010','000000000101','000000000010','000000000011']];
+    document.getElementById("contador").style.top = "10%";
+    document.getElementById("contenido").style.fontSize = "0.94vw";
+    vn = new VonNeumman(memoria, decodificador);
+    interval = setInterval(vn.desplazarSecuencial, tiempo); 
+    op = "1";
 }
 
 function iniciarop2(){
     document.getElementById('omaiga').style['visibility'] = 'hidden';
     document.getElementById('plantilla').style['visibility'] = 'visible';
-    var vn = new VonNeumman(memoria, decodificador);
-    var interval = setInterval(vn.desplazarSecuencial, tiempo); 
+    vn = new VonNeumman(memoria, decodificador);
+    interval = setInterval(vn.desplazarSecuencial, tiempo); 
+    op = "2";
 }
 
 function iniciarop3(){
     document.getElementById('omaiga').style['visibility'] = 'hidden';
     document.getElementById('plantilla').style['visibility'] = 'visible';
-    memoria = [['000010000001','001110000010','000010000011','100010000111','001010000000','000010000100','000010000100','010110000101','100010001000','001010000000','000010000110','010010000110','000010001000','100010001001','001010000000','000010000111','000110001001','100010001010','100100000000'],
-               ['000000000000','000110100101','000000000111','000101000010','000000000101','000000000010','000000000011']];
-    var vn = new VonNeumman(memoria, decodificador);
-    var interval = setInterval(vn.desplazarSecuencial, tiempo); 
+    memoria = [/* Aqui van las instrucciones */ ['000010000001','010010000010','100110000111','001010000000','000010000011','001010000100','100110001000','001010000000','000010000111','000110001000','100110001001','001010000000','000010000101','010010000110','000010001001','100110001010','101000000000'],
+                       /* Aqui van los datos*/          ['000000000000','000000001001','000000000011','000000001011','000000000111','000000001100','000000000010']];
+    vn = new VonNeumman(memoria, decodificador);
+    interval = setInterval(vn.desplazarSecuencial, tiempo);
+    op = "3";
+}
+
+function pause(){
+    let d1 = document.getElementById("pause");
+    let d2 = document.getElementById("play");
+    d2.style.display = "block";
+    d1.style.display = "none";
+    clearInterval(interval);
+}
+
+function play(){
+    let d1 = document.getElementById("pause");
+    let d2 = document.getElementById("play");
+    d1.style.display = "block";
+    d2.style.display = "none";
+    interval = setInterval(vn.desplazarSecuencial, tiempo);  
+}
+
+function replay(){
+    window.location.reload(false);
 }
 
 //Funciones para conversion Binario-Decimal
